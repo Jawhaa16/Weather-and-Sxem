@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Modern weather app with real-time data">
+    <title>Weather App - Real-time Weather Information</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <!-- Language Toggle Button -->
+    <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+        <span class="lang-en">MN</span>
+        <span class="lang-mn">EN</span>
+    </button>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="app-nav">
+            <button class="nav-link" data-target="home" data-lang="navHome">Home</button>
+            <button class="nav-link active" data-target="weather" data-lang="navWeather">Weather</button>
+        </nav>
+
+        <!-- Home Section: Interactive Workspace -->
+        <section id="home-section" class="page-section hidden">
+            <!-- Workspace Sub-Nav -->
+            <div class="workspace-nav">
+                <button class="ws-tab active" data-tab="diagram">📐 Diagram Studio</button>
+                <button class="ws-tab" data-tab="planner">📋 Project Planner</button>
+            </div>
+
+            <!-- VIEW 1: DIAGRAM STUDIO -->
+            <div id="view-diagram" class="workspace-view active">
+                <div class="studio-container">
+                    <div class="studio-sidebar">
+                        <h4>Toolbox</h4>
+                        <div class="tool-item" draggable="true" data-type="ui">🖥️ UI View</div>
+                        <div class="tool-item" draggable="true" data-type="logic">⚙️ Logic</div>
+                        <div class="tool-item" draggable="true" data-type="db">💾 Database</div>
+                        <div class="tool-item" draggable="true" data-type="api">☁️ API</div>
+                        <div class="tool-note">Drag items to canvas</div>
+                        <button id="clearDiagram" class="danger-btn">Clear Canvas</button>
+                    </div>
+                    <div class="studio-canvas" id="diagramCanvas">
+                        <div class="canvas-bg-grid"></div>
+                        <p class="empty-hint">Build your architecture here...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: PROJECT PLANNER -->
+            <div id="view-planner" class="workspace-view hidden">
+                <div class="kanban-board">
+                    <!-- Column: To Do -->
+                    <div class="kanban-column" id="col-todo">
+                        <div class="col-header badge-todo">
+                            <span>To Do</span>
+                            <button class="add-task-btn" data-status="todo">+</button>
+                        </div>
+                        <div class="task-list" id="list-todo"></div>
+                    </div>
+
+                    <!-- Column: In Progress -->
+                    <div class="kanban-column" id="col-progress">
+                        <div class="col-header badge-progress">
+                            <span>In Progress</span>
+                            <button class="add-task-btn" data-status="progress">+</button>
+                        </div>
+                        <div class="task-list" id="list-progress"></div>
+                    </div>
+
+                    <!-- Column: Done -->
+                    <div class="kanban-column" id="col-done">
+                        <div class="col-header badge-done">
+                            <span>Done</span>
+                            <button class="add-task-btn" data-status="done">+</button>
+                        </div>
+                        <div class="task-list" id="list-done"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weather Section -->
+        <section id="weather-section" class="page-section active">
+            <div class="app-wrapper">
+                <!-- Header Section -->
+                <header class="app-header">
+                    <h1 class="app-title" data-lang="title">Weather</h1>
+                    <p class="app-subtitle" data-lang="subtitle">Real-time weather information</p>
+                </header>
+
+                <!-- Search Section -->
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" id="cityInput" class="search-input" data-lang-placeholder="searchPlaceholder"
+                            placeholder="Enter city name..." autocomplete="off" autofocus>
+                        <button id="searchBtn" class="search-btn" data-lang="searchButton">Search</button>
+                    </div>
+                </div>
+
+
+                <!-- Main Content Grid -->
+                <div class="content-grid" id="contentGrid">
+                    <!-- Weather Display Section -->
+                    <div class="weather-container" id="weatherContainer">
+                        <!-- Dynamic content will be injected here -->
+                    </div>
+
+                    <!-- Extra Info Grid (Currency + News + Wiki) -->
+                    <div class="extras-grid">
+                        <!-- Currency Section -->
+                        <div class="currency-container" id="currencyContainer"></div>
+
+                        <!-- News Section -->
+                        <div class="news-container" id="newsContainer"></div>
+
+                        <!-- Wiki Section -->
+                        <div class="wiki-container" id="wikiContainer"></div>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="errorMessage"></div>
+
+                <!-- Loading Spinner -->
+                <div class="loader-container" id="loader">
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ADD TASK MODAL -->
+    <div id="taskModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="modal-title">Add New Task</h3>
+            <div class="form-group">
+                <label>Task Name</label>
+                <input type="text" id="taskInputName" class="modal-input" placeholder="e.g. Update Styles">
+            </div>
+            <div class="form-group">
+                <label>Due Date</label>
+                <input type="date" id="taskInputDate" class="modal-input">
+            </div>
+            <div class="modal-actions">
+                <button id="cancelTaskBtn" class="modal-btn secondary">Cancel</button>
+                <button id="saveTaskBtn" class="modal-btn primary">Add Task</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
